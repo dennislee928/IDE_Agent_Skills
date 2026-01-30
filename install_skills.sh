@@ -1,25 +1,22 @@
 # #region agent log
-LOG_FILE="c:/Users/dennis.lee/Documents/GitHub/pandora_box_console_IDS-IPS/.cursor/debug.log"
-log_debug() {
-  echo "{\"id\":\"log_$(date +%s)_$$\",\"timestamp\":$(date +%s)000,\"location\":\"install_skills.sh:$1\",\"message\":\"$2\",\"data\":$3,\"sessionId\":\"debug-session\",\"runId\":\"run1\",\"hypothesisId\":\"$4\"}" >> "$LOG_FILE"
-}
 
-# 錯誤處理函數：優雅地處理不存在的倉庫
+
+# 錯誤處理函數：處理不存在的倉庫
 install_skill_safe() {
   local repo=$1
   local description=$2
   # #region agent log
-  log_debug "$3" "Attempting to install: $description" "{\"repo\":\"$repo\"}" "A"
+  #log_debug "$3" "Attempting to install: $description" "{\"repo\":\"$repo\"}" "A"
   # #endregion
   if npx openskills install "$repo" 2>&1; then
     # #region agent log
-    log_debug "$4" "Successfully installed: $description" "{\"repo\":\"$repo\",\"success\":true}" "A"
+    #log_debug "$4" "Successfully installed: $description" "{\"repo\":\"$repo\",\"success\":true}" "A"
     # #endregion
     echo "✅ Installed: $description"
   else
     local exit_code=$?
     # #region agent log
-    log_debug "$5" "Failed to install: $description" "{\"repo\":\"$repo\",\"exit_code\":$exit_code,\"failed\":true}" "A"
+    #log_debug "$5" "Failed to install: $description" "{\"repo\":\"$repo\",\"exit_code\":$exit_code,\"failed\":true}" "A"
     # #endregion
     echo "⚠️  Skipped: $description (repository not found or unavailable)"
     return 0  # 繼續執行，不中斷腳本
@@ -32,13 +29,13 @@ install_skill_safe() {
 
 # 安裝後端與通用開發增強
 # #region agent log
-log_debug "10" "Installing obra/superpowers" "{\"source\":\"obra/superpowers\"}" "B"
+#log_debug "10" "Installing obra/superpowers" "{\"source\":\"obra/superpowers\"}" "B"
 # #endregion
 npx openskills install obra/superpowers
 
 # FastAPI 技能 - 使用 jezweb/claude-skills (包含 FastAPI 技能)
 # #region agent log
-log_debug "11" "Installing jezweb/claude-skills (includes FastAPI skill)" "{\"source\":\"jezweb/claude-skills\"}" "C"
+#log_debug "11" "Installing jezweb/claude-skills (includes FastAPI skill)" "{\"source\":\"jezweb/claude-skills\"}" "C"
 # #endregion
 install_skill_safe "jezweb/claude-skills" "jezweb/claude-skills (FastAPI, Flask, Cloudflare, React, Tailwind)" "12" "13" "14"
 
@@ -84,6 +81,6 @@ install_skill_safe "skillmatic-ai/awesome-agent-skills" "skillmatic-ai/awesome-a
 # 如需類似技能，可考慮 jezweb/claude-skills
 
 # #region agent log
-log_debug "27" "Syncing skills to AGENTS.md" "{\"action\":\"sync\"}" "D"
+#log_debug "27" "Syncing skills to AGENTS.md" "{\"action\":\"sync\"}" "D"
 # #endregion
 npx openskills sync
