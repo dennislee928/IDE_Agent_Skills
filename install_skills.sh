@@ -1,6 +1,6 @@
+#!/bin/bash
+
 # #region agent log
-
-
 # 錯誤處理函數：處理不存在的倉庫
 install_skill_safe() {
   local repo=$1
@@ -24,63 +24,47 @@ install_skill_safe() {
 }
 # #endregion
 
-# 注意：awesome-claude-skills 只是一個列表倉庫，不包含實際技能
-# systematic-debugging 已包含在 obra/superpowers 中，無需單獨安裝
+echo "🚀 Starting Skills Upgrade..."
 
-# 安裝後端與通用開發增強
+# 1. 核心開發增強 (Backend & General)
+# systematic-debugging 是一個非常強大的調試方法論技能
 # #region agent log
 #log_debug "10" "Installing obra/superpowers" "{\"source\":\"obra/superpowers\"}" "B"
 # #endregion
-npx openskills install obra/superpowers
+install_skill_safe "obra/superpowers" "obra/superpowers (Systematic Debugging & Dev Tools)" "10" "10a" "10b"
 
-# FastAPI 技能 - 使用 jezweb/claude-skills (包含 FastAPI 技能)
-# #region agent log
-#log_debug "11" "Installing jezweb/claude-skills (includes FastAPI skill)" "{\"source\":\"jezweb/claude-skills\"}" "C"
-# #endregion
-install_skill_safe "jezweb/claude-skills" "jezweb/claude-skills (FastAPI, Flask, Cloudflare, React, Tailwind)" "12" "13" "14"
+# 2. 全端開發套件 (FastAPI, Flask, React, Tailwind)
+# jezweb/claude-skills 包含多種框架的最佳實踐
+install_skill_safe "jezweb/claude-skills" "jezweb/claude-skills (FastAPI, Flask, Cloudflare, React)" "12" "13" "14"
 
-# Go 相關技能說明
-# ============================================
-# 注意：目前沒有找到可以直接用 openskills 安裝的 Go 技能倉庫
-# 
-# Go Agent Skills 相關資源：
-# 1. tRPC-Agent-Go 框架 (trpc.group/trpc-go/trpc-agent-go)
-#    - 這是構建 Go AI Agent 的框架，支持 Skills 功能
-#    - 安裝方式：go get trpc.group/trpc-go/trpc-agent-go
-#    - 文檔：https://trpc-group.github.io/trpc-agent-go/zh/skill/
-#    - 包含示例技能和完整的 Skills 實現
-#
-# 2. go-agentskills (github.com/niwoerner/go-agentskills)
-#    - 這是 Skills 規範驗證工具，不是技能倉庫
-#    - 用於驗證和處理 Agent Skills 規範
-#
-# 3. 創建自己的 Go 技能：
-#    - 參考 agentskills.io 規範：https://agentskills.io/integrate-skills
-#    - 創建包含 SKILL.md 的技能目錄
-#    - 使用 tRPC-Agent-Go 框架來構建支持技能的 Go Agent
-#
-# 4. 臨時方案：
-#    - 使用 obra/superpowers 中的通用開發技能
-#    - 這些技能提供通用的開發模式，適用於多種語言包括 Go
-# ============================================
-echo "ℹ️  Go skills: No dedicated Go skill repository found."
-echo "   - For Go Agent framework: trpc.group/trpc-go/trpc-agent-go"
-echo "   - For skill validation: github.com/niwoerner/go-agentskills"
-echo "   - For creating Go skills: See https://agentskills.io/integrate-skills"
-echo "   - Using obra/superpowers for general development patterns"
+# 3. Go 語言相關技能 (New!)
+# 包含 Go 命名規範、Context 管理等最佳實踐
+echo "ℹ️  Installing Go skills..."
+install_skill_safe "cxuu/golang-skills" "cxuu/golang-skills (Go Naming, Context Best Practices)" "30" "31" "32"
 
-# 安裝雲原生與測試（這些倉庫可能不存在，使用安全安裝函數）
-install_skill_safe "cloud-native/k8s-skill" "cloud-native/k8s-skill" "15" "16" "17"
-install_skill_safe "terraform-experts/iac-skill" "terraform-experts/iac-skill" "18" "19" "20"
-install_skill_safe "test-automation/robot-skill" "test-automation/robot-skill" "21" "22" "23"
+# 4. Terraform & Infrastructure as Code (New!)
+# 由 AWS Hero Anton Babenko 維護的權威 Terraform 技能
+echo "ℹ️  Installing Terraform skills..."
+install_skill_safe "antonbabenko/terraform-skill" "antonbabenko/terraform-skill (Comprehensive Terraform Best Practices)" "40" "41" "42"
 
-# 這個庫包含了多種開發與運維相關的 SKILL.md
-install_skill_safe "skillmatic-ai/awesome-agent-skills" "skillmatic-ai/awesome-agent-skills" "24" "25" "26"
+# 5. Kubernetes & DevOps Agent Skills (New!)
+# 包含 Kubernetes Essentials 等運維技能
+echo "ℹ️  Installing K8s & DevOps skills..."
+install_skill_safe "mjunaidca/mjs-agent-skills" "mjunaidca/mjs-agent-skills (K8s Essentials & General Agent Skills)" "50" "51" "52"
 
-# 注意：chentsulin/claude-skills 倉庫不存在，已移除
-# 如需類似技能，可考慮 jezweb/claude-skills
+# 6. Anthropic 官方技能庫 (New!)
+# 包含官方提供的各類基礎技能範例
+install_skill_safe "anthropics/skills" "anthropics/skills (Official Anthropic Skills)" "60" "61" "62"
+
+# 注意：
+# Robot Framework 目前沒有發現廣泛認可的專用 SKILL.md 倉庫。
+# 建議參考官方文檔或使用 obra/superpowers 中的通用測試模式。
 
 # #region agent log
-#log_debug "27" "Syncing skills to AGENTS.md" "{\"action\":\"sync\"}" "D"
+#log_debug "99" "Syncing skills to AGENTS.md" "{\"action\":\"sync\"}" "D"
 # #endregion
+
+echo "🔄 Syncing skills..."
 npx openskills sync
+
+echo "✨ Upgrade Complete! Please restart your agent to apply changes."
